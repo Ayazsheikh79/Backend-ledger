@@ -1,5 +1,6 @@
 import userModel from '../models/user.model.js'
 import jwt from 'jsonwebtoken';
+import emailService from '../services/email.service.js'
 
 /**
     * Register User
@@ -33,6 +34,7 @@ async function userLoginController(req, res) {
     const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: '30d'})
     res.cookie('access_token', token)
     res.status(200).json({msg: 'User logged in successfully'})
+    await emailService.sendRegistrationEmail(user.email, user.name)
 }
 
 export default {
