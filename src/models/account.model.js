@@ -60,7 +60,6 @@ accountSchema.methods.getBalance = async function() {
             }
         }
     ])
-    console.log(balance)
     if (balance.length === 0) return 0
     return balance[0].balance
 }
