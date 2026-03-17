@@ -35,7 +35,7 @@ const sendEmail = async (to, subject,text, html) => {
             html
         })
         console.log('Message sent: %s', info.messageId)
-        console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info))
+        console.log('Preview URL: %s', info.url)
     } catch (err) {
         console.error('Error sending email:', err)
     }
@@ -48,7 +48,22 @@ async function sendRegistrationEmail(userEmail, name) {
     await sendEmail(userEmail, subject, text, html)
 }
 
+async function sendTransactionEmail(userEmail, name, amount, toAccount, fromAccount) {
+    const subject = 'Transaction Successful'
+    const text = `Hi ${name},\n\nA transaction of ₹${amount} has been made from account ${fromAccount} to account ${toAccount}.\n\nBest regards,\nThe Backend Ledger Team`
+    const html = `<p>Hi ${name},</p><p>A transaction of ₹${amount} has been made from an account ${fromAccount} to account ${toAccount}.</p><p>Best regards,<br>The Backend Ledger Team</p>`
+    await sendEmail(userEmail, subject, text, html)
+}
+
+async function sendTransactionFailedEmail(userEmail, name, amount, toAccount, fromAccount) {
+    const subject = 'Transaction Failed'
+    const text = `Hi ${name},\n\nA transaction of ₹${amount} from account ${fromAccount} to account ${toAccount} has failed. Please check your account balance and try again.\n\nBest regards,\nThe Backend Ledger Team`
+    const html = `<p>Hi ${name},</p><p>A transaction of ₹${amount} from account ${fromAccount} to account ${toAccount} has failed. Please check your account balance and try again.</p><p>Best regards,<br>The Backend Ledger Team</p>`
+    await sendEmail(userEmail, subject, text, html)
+}
 
 export default {
-    sendRegistrationEmail
+    sendRegistrationEmail,
+    sendTransactionEmail,
+    sendTransactionFailedEmail
 }
