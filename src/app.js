@@ -13,6 +13,10 @@ import authRouter from './routes/auth.routes.js';
 import accountRouter from './routes/account.routes.js';
 import transactionRoutes from "./routes/transaction.routes.js";
 
+app.get('/', (req, res) => {
+    res.send('Welcome to the Banking API');
+})
+
 /**
  * Middleware
  */
